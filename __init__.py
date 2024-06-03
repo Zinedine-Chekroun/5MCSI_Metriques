@@ -26,7 +26,7 @@ def MaPremiereAPI():
     return render_template("contact.html")
 
 @app.route("/commits/")
-def MaPremiereAPI():
+def MaPremiereAPI2():
     return render_template("commits.html")
 
 
