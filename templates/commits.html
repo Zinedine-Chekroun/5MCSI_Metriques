@@ -13,20 +13,20 @@
 
         function drawChart() {
             fetch('/commits-data/')
-                .then(response3 => response.json())
+                .then(response => response.json())
                 .then(data => {
                     var dataTable = new google.visualization.DataTable();
-                    dataTable.addColumn('number', 'Minute');
                     dataTable.addColumn('number', 'Commits');
+                    dataTable.addColumn('number', 'Minute');
 
                     data.results.forEach(entry => {
-                        dataTable.addRow([entry.minute, entry.commits]);
+                        dataTable.addRow([entry.commits, entry.minute]);
                     });
 
                     var options = {
                         title: 'Nombre de Commits par Minute',
-                        hAxis: { title: 'Minute', minValue: 0, maxValue: 59 },
-                        vAxis: { title: 'Commits', minValue: 0 },
+                        hAxis: { title: 'Commits', minValue: 0 },
+                        vAxis: { title: 'Minute', minValue: 0, maxValue: 59 },
                         legend: { position: 'bottom' }
                     };
 
