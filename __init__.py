@@ -67,7 +67,7 @@ def commits_data():
     json_content = json.loads(raw_content.decode('utf-8'))
     
     # Dictionary to count commits per minute
-    commits_per_minute = {}
+    commits_per_minute = {i: 0 for i in range(60)}
     
     for commit in json_content:
         commit_info = commit.get('commit', {})
@@ -76,10 +76,8 @@ def commits_data():
         
         if date_str:
             date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
-            minute = date_object.strftime('%Y-%m-%d %H:%M')
+            minute = date_object.minute
             
-            if minute not in commits_per_minute:
-                commits_per_minute[minute] = 0
             commits_per_minute[minute] += 1
 
     # Convert the dictionary to a list of tuples

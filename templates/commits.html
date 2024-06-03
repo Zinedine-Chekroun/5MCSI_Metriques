@@ -16,7 +16,7 @@
                 .then(response => response.json())
                 .then(data => {
                     var dataTable = new google.visualization.DataTable();
-                    dataTable.addColumn('string', 'Minute');
+                    dataTable.addColumn('number', 'Minute');
                     dataTable.addColumn('number', 'Commits');
 
                     data.results.forEach(entry => {
@@ -25,7 +25,8 @@
 
                     var options = {
                         title: 'Nombre de Commits par Minute',
-                        curveType: 'function',
+                        hAxis: { title: 'Minute', minValue: 0, maxValue: 59 },
+                        vAxis: { title: 'Commits', minValue: 0 },
                         legend: { position: 'bottom' }
                     };
 
