@@ -60,10 +60,9 @@ def github():
         
     return jsonify(results=results)
 
-@app.route('/commits-data/')
 def commits_data():
-    response3 = urlopen('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
-    raw_content = response3.read()
+    response = urlopen('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
+    raw_content = response.read()
     json_content = json.loads(raw_content.decode('utf-8'))
     
     # Dictionary to count commits per minute

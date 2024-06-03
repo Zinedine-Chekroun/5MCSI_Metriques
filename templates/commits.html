@@ -13,7 +13,7 @@
 
         function drawChart() {
             fetch('/commits-data/')
-                .then(response3 => response.json())
+                .then(response => response.json())
                 .then(data => {
                     var dataTable = new google.visualization.DataTable();
                     dataTable.addColumn('number', 'Minute');
