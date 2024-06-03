@@ -60,6 +60,31 @@ def github():
         
     return jsonify(results=results)
 
+@app.route('/commits-data/')
+def commits_data():
+    response3 = urlopen('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits')
+    raw_content = response3.read()
+    json_content = json.loads(raw_content.decode('utf-8'))
+    
+    # Dictionary to count commits per minute
+    commits_per_minute = {i: 0 for i in range(60)}
+    
+    for commit in json_content:
+        commit_info = commit.get('commit', {})
+        author_info = commit_info.get('author', {})
+        date_str = author_info.get('date')
+        
+        if date_str:
+            date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
+            minute = date_object.minute
+            
+            commits_per_minute[minute] += 1
+
+    # Convert the dictionary to a list of tuples
+    results = [{'minute': k, 'commits': v} for k, v in sorted(commits_per_minute.items())]
+    
+    return jsonify(results=results)
+
 
 
 if __name__ == "__main__":
