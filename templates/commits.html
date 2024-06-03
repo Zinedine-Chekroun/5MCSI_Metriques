@@ -1,40 +1,39 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
     <meta charset="UTF-8" />
-    <title>Metrique</title>
+    <title>Nombre de Commits par Minute</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div id="chart_div"></div>
     <script>
-      google.charts.load('current', { packages: ['corechart'] });
-      google.charts.setOnLoadCallback(drawBackgroundColor);
-     function drawBackgroundColor() {
-    function drawChart(data) {
-    // Convertir les données récupérées en un tableau utilisable par Google Charts
-    var dataTable = new google.visualization.DataTable();
-    dataTable.addColumn('string', 'author');
-    dataTable.addColumn('number', 'minute');
-    data.results.forEach(entry => {
-      var date;
-      dataTable.addRow([date.toLocaleDateString(), entry.temp]);
-    });
-    // Configurer les options du graphique en ligne
-    var options = {
-      title: 'Évolution des températures de la ville de Tawarano',
-      curveType: 'function',
-      legend: { position: 'bottom' }
-    };
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(dataTable, options);
-  }
-  // Récupération de données depuis notre API /tawarano/
-  fetch('/github/')
-    .then(response2 => response.json())
-    .then(data => {
-      drawChart(data);
-    })
-}
+        google.charts.load('current', { packages: ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            fetch('/commits-data/')
+                .then(response => response.json())
+                .then(data => {
+                    var dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn('number', 'Minute');
+                    dataTable.addColumn('number', 'Commits');
+
+                    data.results.forEach(entry => {
+                        dataTable.addRow([entry.minute, entry.commits]);
+                    });
+
+                    var options = {
+                        title: 'Nombre de Commits par Minute',
+                        hAxis: { title: 'Minute', minValue: 0, maxValue: 59 },
+                        vAxis: { title: 'Commits', minValue: 0 },
+                        legend: { position: 'bottom' }
+                    };
+
+                    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                    chart.draw(dataTable, options);
+                });
+        }
     </script>
-  </body>
+</body>
 </html>
