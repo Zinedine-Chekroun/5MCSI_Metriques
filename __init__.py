@@ -51,7 +51,7 @@ def github():
     results = []
     for list_element in json_content.get('list', []):
         dt_value = list_element.get('commit')
-        date_day_value = list_element.get('author', {}) - 273.15 # Conversion de Kelvin en °c 
+        date_day_value = list_element.get('author', {})  # Conversion de Kelvin en °c 
         results.append({'author': dt_value, 'date': date_day_value})
     return jsonify(results=results)
 
