@@ -52,7 +52,7 @@ def github():
     for list_element in json_content.get('list', []):
         dt_value = list_element.get('commit')
         date_day_value = list_element.get('author', {}).get('date') - 273.15 # Conversion de Kelvin en °c 
-        results.append({'Jour': dt_value, 'temp': date_day_value})
+        results.append({'author': dt_value, 'date': date_day_value})
     return jsonify(results=results)
 
 if __name__ == "__main__":
