@@ -49,11 +49,15 @@ def github():
     raw_content = response.read()
     json_content = json.loads(raw_content.decode('utf-8'))
     results = []
-    for list_element in json_content.get('list', []):
-        dt_value = list_element.get('commit')
-        date_day_value = list_element.get('author', {})  # Conversion de Kelvin en °c 
-        results.append({'author': dt_value, 'date': date_day_value})
+    for commit in json_content:
+        commit_info = commit.get('commit', {})
+        author_info = commit_info.get('author', {})
+        results.append({
+            'author': author_info.get('name'),
+            'date': author_info.get('date')
+        })
     return jsonify(results=results)
+
 
 if __name__ == "__main__":
   app.run(debug=True)
